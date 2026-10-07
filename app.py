@@ -1,3 +1,4 @@
+import mimetypes
 from pathlib import Path
 
 import environ
@@ -29,6 +30,7 @@ def dbcheck(request):
     return HttpResponse(f"database connection ok ({connection.vendor})")
 
 
+mimetypes.add_type("image/webp", ".webp")
 PAGE = Path(__file__).parent / "coming-soon"
 
 urlpatterns = [
