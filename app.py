@@ -1,9 +1,12 @@
+from pathlib import Path
+
 import environ
 from django.conf import settings
 from django.core.wsgi import get_wsgi_application
 from django.db import connection
 from django.http import HttpResponse
-from django.urls import path
+from django.urls import path, re_path
+from django.views.static import serve
 
 env = environ.Env()
 database_url = env("DATABASE_URL", default="")
@@ -26,8 +29,11 @@ def dbcheck(request):
     return HttpResponse(f"database connection ok ({connection.vendor})")
 
 
+PAGE = Path(__file__).parent / "coming-soon"
+
 urlpatterns = [
-    path("", lambda request: HttpResponse("<h1>Help Grandma Out</h1><p>Coming soon.</p>")),
+    path("", serve, {"document_root": PAGE, "path": "index.html"}),
+    re_path(r"^(?P<path>style\.css|grandma\.png)$", serve, {"document_root": PAGE}),
     path("healthz", lambda request: HttpResponse("ok")),
     path("dbcheck", dbcheck),
 ]
