@@ -35,7 +35,7 @@ PAGE = Path(__file__).parent / "coming-soon"
 
 urlpatterns = [
     path("", serve, {"document_root": PAGE, "path": "index.html"}),
-    re_path(r"^(?P<path>style\.css|grandma\.webp)$", serve, {"document_root": PAGE}),
+    re_path(r"^(?P<path>style\.css|grandma\.webp|cat\.png)$", serve, {"document_root": PAGE}),
     path("healthz", lambda request: HttpResponse("ok")),
     path("dbcheck", dbcheck),
 ]
